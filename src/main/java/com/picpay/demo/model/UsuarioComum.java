@@ -1,39 +1,65 @@
 package com.picpay.demo.model;
 
-public class UsuarioComum implements User {
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+
+@MappedSuperclass
+abstract class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String nome;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String senha;
-    private String cpf;
 
-    //get e set do a mais
-    public String getCpf() {
-        return cpf;
+    private BigDecimal saldo = BigDecimal.ZERO;
+
+    // Método abstrato a ser implementado pelas subclasses
+    public abstract String getFullName();
+
+    // Getters e Setters
+    public Long getId() {
+        return id;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public UsuarioComum(String nome, String email, String senha, String cpf) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.cpf = cpf;
-    }
-
-    @Override
     public String getNome() {
         return nome;
     }
 
-    @Override
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getSenha() {
         return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(BigDecimal saldo) {
+        this.saldo = saldo;
     }
 }
